@@ -1,7 +1,6 @@
 module.exports = (req, res) => {
   let baseUrl = req.url.substring(0, req.url.lastIndexOf("/") + 1);
   let id = req.url.split("/")[3];
-
   const regexV4 = new RegExp(
     /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/
   );
@@ -12,7 +11,7 @@ module.exports = (req, res) => {
     res.write(JSON.stringify(req.movies));
     res.end();
   } else if (!regexV4.test(id)) {
-    res.writeHead(404, { "Content-Type": "application/json" });
+    res.writeHead(400, { "Content-Type": "application/json" });
     res.end(
       JSON.stringify({
         title: "Validation failed",
@@ -31,7 +30,7 @@ module.exports = (req, res) => {
     } else {
       res.statusCode = 404;
       res.write(
-        JSON.stringify({ title: "Not found ", message: "Route not found" })
+        JSON.stringify({ title: "Not found ", message: "Movie not found" })
       );
       res.end();
     }
